@@ -34,6 +34,8 @@ public class ResetService {
     @Resource
     private WorkflowNodeInfoRepository workflowNodeInfoRepository;
 
+    private static final String EXAMPLE_PASSWORD = "powerjob123";
+
     /**
      * 调用所有重置方法（用于初始化表数据或测试）
      */
@@ -48,19 +50,21 @@ public class ResetService {
     @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetAppName() {
 
-        Optional<AppInfoDO> appInfoOpt = appInfoRepository.findById(1L);
+        final String appName = guardConfig.getAppName();
+
+        Optional<AppInfoDO> appInfoOpt = appInfoRepository.findByAppName(appName);
         if (appInfoOpt.isPresent()) {
             AppInfoDO appInfo = appInfoOpt.get();
-            appInfo.setPassword("123");
-            appInfo.setAppName(guardConfig.getAppName());
+            appInfo.setPassword(EXAMPLE_PASSWORD);
+            appInfo.setAppName(appName);
             appInfoRepository.saveAndFlush(appInfo);
             return;
         }
 
         AppInfoDO appInfo = new AppInfoDO();
         appInfo.setId(1L);
-        appInfo.setAppName(guardConfig.getAppName());
-        appInfo.setPassword("123");
+        appInfo.setAppName(appName);
+        appInfo.setPassword(EXAMPLE_PASSWORD);
         appInfo.setGmtCreate(new Date());
         appInfo.setGmtModified(new Date());
         appInfoRepository.saveAndFlush(appInfo);
@@ -72,12 +76,12 @@ public class ResetService {
         ContainerInfoDO container = new ContainerInfoDO();
         container.setId(1L);
         container.setAppId(1L);
-        container.setContainerName("demo-container");
+        container.setContainerName("powerjob-demo-container");
         container.setStatus(1);
         container.setVersion(guardConfig.getContainerVersion());
         container.setLastDeployTime(new Date());
         container.setSourceType(2);
-        container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/OhMyScheduler-Container-Template\",\"branch\":\"v4\",\"username\":\"\",\"password\":\"\"}");
+        container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/PowerJob-Container-Template.git\",\"branch\":\"master\",\"username\":\"\",\"password\":\"\"}");
 
         container.setGmtModified(new Date());
         container.setGmtCreate(new Date());
