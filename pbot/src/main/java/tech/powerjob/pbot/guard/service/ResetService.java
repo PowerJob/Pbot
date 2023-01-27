@@ -197,7 +197,7 @@ public class ResetService {
         base.setMinMemorySpace(0);
         base.setStatus(1);
         base.setMaxWorkerCount(0);
-        base.setMaxInstanceNum(1);
+        base.setMaxInstanceNum(3);
         base.setProcessorType(4);
         base.setInstanceTimeLimit(0L);
 
