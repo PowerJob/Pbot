@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import tech.powerjob.pbot.guard.common.ConfigCenter;
+import tech.powerjob.pbot.guard.common.GuardConfig;
 import tech.powerjob.pbot.guard.persistence.model.*;
 import tech.powerjob.pbot.guard.persistence.repository.*;
 
@@ -19,6 +19,9 @@ import java.util.Optional;
  */
 @Service
 public class ResetService {
+
+    @Resource
+    private GuardConfig guardConfig;
 
     @Resource
     private AppInfoRepository appInfoRepository;
@@ -49,15 +52,14 @@ public class ResetService {
         if (appInfoOpt.isPresent()) {
             AppInfoDO appInfo = appInfoOpt.get();
             appInfo.setPassword("123");
-            appInfo.setAppName(ConfigCenter.powerjobAppName);
-            appInfo.setAppName(ConfigCenter.powerjobAppName);
+            appInfo.setAppName(guardConfig.getAppName());
             appInfoRepository.saveAndFlush(appInfo);
             return;
         }
 
         AppInfoDO appInfo = new AppInfoDO();
         appInfo.setId(1L);
-        appInfo.setAppName(ConfigCenter.powerjobAppName);
+        appInfo.setAppName(guardConfig.getAppName());
         appInfo.setPassword("123");
         appInfo.setGmtCreate(new Date());
         appInfo.setGmtModified(new Date());
@@ -72,7 +74,7 @@ public class ResetService {
         container.setAppId(1L);
         container.setContainerName("demo-container");
         container.setStatus(1);
-        container.setVersion(ConfigCenter.powerjobContainerVersion);
+        container.setVersion(guardConfig.getContainerVersion());
         container.setLastDeployTime(new Date());
         container.setSourceType(2);
         container.setSourceInfo("{\"repo\":\"https://gitee.com/KFCFans/OhMyScheduler-Container-Template\",\"branch\":\"v4\",\"username\":\"\",\"password\":\"\"}");
