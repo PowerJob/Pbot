@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import tech.powerjob.common.enums.InstanceStatus;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -64,9 +63,6 @@ public class InstanceInfoDO {
      * 该任务实例所属的 workflow ID，仅 workflow 任务存在
      */
     private Long wfInstanceId;
-    /**
-     * 任务状态 {@link InstanceStatus}
-     */
     private Integer status;
     /**
      * 执行结果（允许存储稍大的结果）
