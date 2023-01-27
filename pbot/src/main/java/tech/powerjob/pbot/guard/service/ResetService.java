@@ -262,7 +262,7 @@ public class ResetService {
         workflowA.setId(workflowId);
         workflowA.setWfName(name);
         workflowA.setStatus(1);
-        workflowA.setMaxWfInstanceNum(1);
+        workflowA.setMaxWfInstanceNum(2);
         workflowA.setNextTriggerTime(System.currentTimeMillis() + 5000);
         workflowA.setWfDescription("welcome to use PowerJob~");
         workflowA.setPeDAG(dag);
