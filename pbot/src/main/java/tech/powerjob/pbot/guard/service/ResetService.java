@@ -2,6 +2,7 @@ package tech.powerjob.pbot.guard.service;
 
 import com.google.common.collect.Lists;
 import jakarta.annotation.Resource;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tech.powerjob.pbot.guard.common.GuardConfig;
@@ -17,6 +18,7 @@ import java.util.Optional;
  * @author tjq
  * @since 2020/7/1
  */
+@Slf4j
 @Service
 public class ResetService {
 
@@ -58,6 +60,7 @@ public class ResetService {
             appInfo.setPassword(EXAMPLE_PASSWORD);
             appInfo.setAppName(appName);
             appInfoRepository.saveAndFlush(appInfo);
+            log.info("[ResetService] reset appName successfully!");
             return;
         }
 
@@ -68,6 +71,7 @@ public class ResetService {
         appInfo.setGmtCreate(new Date());
         appInfo.setGmtModified(new Date());
         appInfoRepository.saveAndFlush(appInfo);
+        log.info("[ResetService] register samples app successfully!");
     }
 
     @Scheduled(cron = "0 0/5 * * * ? ")
@@ -87,6 +91,8 @@ public class ResetService {
         container.setGmtCreate(new Date());
 
         containerInfoRepository.saveAndFlush(container);
+
+        log.info("[ResetService] reset container successfully!");
     }
 
     @Scheduled(cron = "0 0/10 * * * ? ")
