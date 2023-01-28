@@ -1,7 +1,6 @@
 package tech.powerjob.pbot.guard.service;
 
 import com.google.common.collect.Lists;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -9,6 +8,7 @@ import tech.powerjob.pbot.guard.common.GuardConfig;
 import tech.powerjob.pbot.guard.persistence.model.*;
 import tech.powerjob.pbot.guard.persistence.repository.*;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 

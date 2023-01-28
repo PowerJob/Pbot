@@ -1,7 +1,6 @@
 package tech.powerjob.pbot.guard.service;
 
 import com.google.common.collect.Lists;
-import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 import tech.powerjob.pbot.common.MessageHelper;
 import tech.powerjob.pbot.guard.common.GuardConfig;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**

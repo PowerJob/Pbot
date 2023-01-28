@@ -1,12 +1,13 @@
 package tech.powerjob.pbot.guard.controller;
 
 import com.alibaba.fastjson2.JSONObject;
-import jakarta.annotation.Resource;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import tech.powerjob.pbot.guard.service.ResetService;
+
+import javax.annotation.Resource;
 
 /**
  * test

@@ -3,7 +3,7 @@ package tech.powerjob.pbot.guard.persistence.model;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import java.util.Date;
 
 /**

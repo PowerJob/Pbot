@@ -1,9 +1,9 @@
 package tech.powerjob.pbot.guard.persistence.model;
 
-import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.persistence.*;
 import java.util.Date;
 
 /**
