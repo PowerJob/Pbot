@@ -14,6 +14,7 @@ docker build -t tjqq/pbot:latest . || exit
 echo "================== 准备启动 PBot =================="
 docker run -d \
        --restart=always \
+       --net=host \
        --name pbot \
        -p 7777:7777 \
        -e PARAMS="--spring.profiles.active=production" \

@@ -1,4 +1,5 @@
-FROM openjdk:17.0.2
+#FROM openjdk:17.0.2
+FROM adoptopenjdk:8-jdk-hotspot
 # 维护者
 MAINTAINER tengjiqi@gmail.com
 # 设置时区
