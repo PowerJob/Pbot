@@ -18,5 +18,6 @@ docker run -d \
        --name pbot \
        -p 7777:7777 \
        -e PARAMS="--spring.profiles.active=production" \
+       -e JVMOPTIONS="-Xms128M -Xmx128M -server" \
        -v ~/powerjob-data/pbot:/root \
        tjqq/pbot:latest
