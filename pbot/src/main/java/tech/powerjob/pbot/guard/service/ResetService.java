@@ -179,7 +179,7 @@ public class ResetService {
 
     @Scheduled(cron = "0 0 0 * * ? ")
     public void cleanJobAndWorkflow() {
-        jobInfoRepository.deleteByIdGreaterThan(15);
+        jobInfoRepository.deleteByIdGreaterThan(20);
         workflowInfoRepository.deleteByIdGreaterThan(5);
     }
 
