@@ -23,3 +23,10 @@ docker run -d \
        -e JVMOPTIONS="-server" \
        -v ~/powerjob-data/pbot:/root \
        tjqq/pbot:latest
+
+#-m,--memory                  内存限制，格式是数字加单位，单位可以为 b,k,m,g。最小为 4M
+#--memory-swap                内存+交换分区大小总限制。格式同上。必须必-m设置的大
+#--memory-reservation         内存的软性限制。格式同上
+#--oom-kill-disable           是否阻止 OOM killer 杀死容器，默认没设置
+#--oom-score-adj              容器被 OOM killer 杀死的优先级，范围是[-1000, 1000]，默认为 0
+#--memory-swappiness          用于设置容器的虚拟内存控制行为。值为 0
