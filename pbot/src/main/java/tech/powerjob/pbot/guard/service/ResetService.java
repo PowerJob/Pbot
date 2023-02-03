@@ -8,7 +8,7 @@ import tech.powerjob.pbot.guard.common.GuardConfig;
 import tech.powerjob.pbot.guard.persistence.model.*;
 import tech.powerjob.pbot.guard.persistence.repository.*;
 
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 
