@@ -4,7 +4,7 @@ MAINTAINER tengjiqi@gmail.com
 # 安装 maven
 RUN curl -O https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz
 RUN tar -zxvf apache-maven-3.9.0-bin.tar.gz && mv apache-maven-3.9.0 /opt/powerjob-maven && rm -rf apache-maven-3.9.0-bin.tar.gz
-ENV M2_HOME=/opt/powerjob-maven
+ENV PATH=/opt/powerjob-maven/bin:$PATH
 # 安装原生镜像
 RUN gu install native-image
 # 拷贝源码
