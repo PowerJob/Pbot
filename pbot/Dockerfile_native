@@ -8,7 +8,7 @@ ENV PATH=/opt/powerjob-maven/bin:$PATH
 # 安装原生镜像
 RUN gu install native-image
 # 拷贝源码
-COPY . /root
+COPY . .
 # 编译，打原生镜像
 RUN mvn -Pnative native:compile -DskipTests
 # 启动
