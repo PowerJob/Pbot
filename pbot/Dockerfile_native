@@ -11,5 +11,6 @@ RUN gu install native-image
 COPY . .
 # 编译，打原生镜像
 RUN  mvn -Pnative native:compile -DskipTests
+RUN chmod +x /app/target/pbot
 # 启动
-ENTRYPOINT ["sh", "/app/target/pbot"]
+CMD ["/app/target/pbot"]
