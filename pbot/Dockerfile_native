@@ -10,6 +10,6 @@ RUN gu install native-image
 # 拷贝源码
 COPY . .
 # 编译，打原生镜像
-RUN mvn native:compile-no-fork -DskipTests
+RUN  mvn -Pnative native:compile -DskipTests
 # 启动
 ENTRYPOINT ["sh", "/app/target/pbot"]
