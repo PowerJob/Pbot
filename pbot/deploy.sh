@@ -1,6 +1,6 @@
 #!/bin/bash
 # 部署守护程序
-
+read -r -p "native image?(Y or N):" native
 echo "================== 关闭老应用 =================="
 docker stop pbot
 echo "================== 删除老容器 =================="
@@ -10,7 +10,11 @@ docker rmi -f tjqq/pbot:latest
 echo "================== 重新构建 JAR =================="
 mvn clean package -DskipTests
 echo "================== 重新构建 Docker =================="
-docker build -t tjqq/pbot:latest . || exit
+if [ "$native" = "y" ] || [  "$native" = "Y" ]; then
+  docker build -f Dockerfile_native -t tjqq/pbot:latest . || exit
+else
+  docker build -t tjqq/pbot:latest . || exit
+fi
 echo "================== 准备启动 PBot =================="
 docker run -d \
        --restart=always \
