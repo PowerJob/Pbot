@@ -1,5 +1,6 @@
 # 依赖 gravel VM
 FROM ghcr.io/graalvm/graalvm-ce:22.3.1
+#FROM tjqq/ghcr.io.graalvm.graalvm-ce:22.3.1
 MAINTAINER tengjiqi@gmail.com
 # 安装 maven
 RUN curl -O https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz
