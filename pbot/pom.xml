@@ -10,7 +10,7 @@
     </parent>
     <groupId>tech.powerjob</groupId>
     <artifactId>pbot</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>pbot</name>
     <description>pbot</description>
     <properties>
@@ -127,15 +127,15 @@
                         --initialize-at-build-time=tech.powerjob.pbot.guard.persistence.PowerJobPhysicalNamingStrategy
                     </buildArgs>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>build-native</id>
-                        <goals>
-                            <goal>compile-no-fork</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>build-native</id>-->
+<!--                        <goals>-->
+<!--                            <goal>compile-no-fork</goal>-->
+<!--                        </goals>-->
+<!--                        <phase>package</phase>-->
+<!--                    </execution>-->
+<!--                </executions>-->
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

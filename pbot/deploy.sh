@@ -7,8 +7,6 @@ echo "================== 删除老容器 =================="
 docker container rm pbot
 echo "================== 删除老镜像 =================="
 docker rmi -f tjqq/pbot:latest
-echo "================== 重新构建 JAR =================="
-mvn clean package -DskipTests
 echo "================== 重新构建 Docker =================="
 if [ "$native" = "y" ] || [  "$native" = "Y" ]; then
   docker build -f Dockerfile_native -t tjqq/pbot:latest . || exit
@@ -20,12 +18,13 @@ docker run -d \
        --restart=always \
        --net=host \
        --name pbot \
-       -m 64M \
-       --memory-swap 128M \
+       -m 128M \
+       --memory-swap 256M \
        -p 7777:7777 \
        -e PARAMS="--spring.profiles.active=production" \
        -e JVMOPTIONS="-server" \
        -v ~/powerjob-data/pbot:/root \
+       -v ~/.m2:~/.m2 \
        tjqq/pbot:latest
 
 #-m,--memory                  内存限制，格式是数字加单位，单位可以为 b,k,m,g。最小为 4M
