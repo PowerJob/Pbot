@@ -20,4 +20,4 @@ COPY . .
 RUN mvn clean package -DskipTests
 EXPOSE 7777
 # 启动应用
-ENTRYPOINT ["sh","-c","java $JVMOPTIONS -jar /app/target/pbot-1.0.0.jar $PARAMS"]
+ENTRYPOINT ["sh","-c","java $JVMOPTIONS -jar ./target/pbot-1.0.0.jar $PARAMS"]
