@@ -49,7 +49,7 @@ public class ResetService {
     }
 
     // 强制 id 为 1 的 app 为示例 app
-    @Scheduled(cron = "0 0/3 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void resetAppName() {
 
         final String appName = guardConfig.getAppName();
@@ -74,7 +74,7 @@ public class ResetService {
         log.info("[ResetService] register samples app successfully!");
     }
 
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/1 * * * ? ")
     public void resetContainer() {
 
         ContainerInfoDO container = new ContainerInfoDO();
@@ -95,7 +95,7 @@ public class ResetService {
         log.info("[ResetService] reset container successfully!");
     }
 
-    @Scheduled(cron = "0 0/10 * * * ? ")
+    @Scheduled(cron = "0 0/5 * * * ? ")
     public void resetJobs() {
 
         // JOB1: 官方 HTTP 处理器
