@@ -4,6 +4,9 @@ MAINTAINER tengjiqi@gmail.com
 # 安装 maven
 RUN curl -O https://mirrors.tuna.tsinghua.edu.cn/apache/maven/maven-3/3.9.0/binaries/apache-maven-3.9.0-bin.tar.gz
 RUN tar -zxvf apache-maven-3.9.0-bin.tar.gz && mv apache-maven-3.9.0 /opt/powerjob-maven && rm -rf apache-maven-3.9.0-bin.tar.gz
+# 替换 maven 配置文件
+RUN rm -rf /opt/powerjob-maven/conf/settings.xml
+COPY maven_settings.xml /opt/powerjob-maven/conf/settings.xml
 ENV PATH=/opt/powerjob-maven/bin:$PATH
 # 设置时区
 ENV TZ=Asia/Shanghai

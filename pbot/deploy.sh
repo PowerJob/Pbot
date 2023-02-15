@@ -24,7 +24,6 @@ docker run -d \
        -e PARAMS="--spring.profiles.active=production" \
        -e JVMOPTIONS="-server" \
        -v ~/powerjob-data/pbot:/root \
-       -v ~/.m2:~/.m2 \
        tjqq/pbot:latest
 
 #-m,--memory                  内存限制，格式是数字加单位，单位可以为 b,k,m,g。最小为 4M
