@@ -18,8 +18,8 @@ docker run -d \
        --restart=always \
        --net=host \
        --name pbot \
-       -m 128M \
-       --memory-swap 256M \
+       -m 192M \
+       --memory-swap 384M \
        -p 7777:7777 \
        -e PARAMS="--spring.profiles.active=production" \
        -e JVMOPTIONS="-server" \
