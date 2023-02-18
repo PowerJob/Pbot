@@ -12,5 +12,4 @@ import tech.powerjob.pbot.guard.persistence.model.JobInfoDO;
  */
 public interface JobInfoRepository extends JpaRepository<JobInfoDO, Long>, JpaSpecificationExecutor<JobInfoDO> {
 
-    int deleteByIdGreaterThan(int id);
 }

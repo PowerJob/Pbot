@@ -35,4 +35,9 @@ public class TestController {
         return ret;
     }
 
+    @GetMapping("/cleanAll")
+    public void cleanAll() {
+        resetService.cleanJobAndWorkflow();
+    }
+
 }

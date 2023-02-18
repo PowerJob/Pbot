@@ -1,6 +1,8 @@
 package tech.powerjob.pbot.guard.service;
 
+import com.alibaba.fastjson2.JSONObject;
 import com.google.common.collect.Lists;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -8,7 +10,6 @@ import tech.powerjob.pbot.guard.common.GuardConfig;
 import tech.powerjob.pbot.guard.persistence.model.*;
 import tech.powerjob.pbot.guard.persistence.repository.*;
 
-import jakarta.annotation.Resource;
 import java.util.Date;
 import java.util.Optional;
 
@@ -37,6 +38,13 @@ public class ResetService {
     private WorkflowNodeInfoRepository workflowNodeInfoRepository;
 
     private static final String EXAMPLE_PASSWORD = "powerjob123";
+
+    private static final String SYSTEM_EXTRA = "__powerjob_demo_jobs_";
+
+    /**
+     * 用户 demo 保留时间
+     */
+    private static final long MAX_EXPIRE_TIME = 3600 * 1000;
 
     /**
      * 调用所有重置方法（用于初始化表数据或测试）
@@ -99,7 +107,7 @@ public class ResetService {
         log.info("[ResetService] reset container successfully!");
     }
 
-    @Scheduled(cron = "0 0/5 * * * ? ")
+    @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetJobs() {
 
         // JOB1: 官方 HTTP 处理器
@@ -183,10 +191,33 @@ public class ResetService {
         log.info("[ResetService] reset jobs successfully!");
     }
 
-    @Scheduled(cron = "0 0 0 * * ? ")
+    @Scheduled(cron = "0 0/15 * * * ? ")
     public void cleanJobAndWorkflow() {
-        jobInfoRepository.deleteByIdGreaterThan(20);
-        workflowInfoRepository.deleteByIdGreaterThan(5);
+
+        jobInfoRepository.findAll().forEach(jobInfoDO -> {
+            final boolean canDelete = checkCanDelete(jobInfoDO.getExtra(), jobInfoDO.getGmtModified());
+            if (canDelete) {
+                log.info("[ResetService] delete user created job: {}", JSONObject.toJSONString(jobInfoDO));
+                jobInfoRepository.deleteById(jobInfoDO.getId());
+            }
+        });
+
+        workflowInfoRepository.findAll().forEach(workflowInfoDO -> {
+            final boolean canDelete = checkCanDelete(workflowInfoDO.getExtra(), workflowInfoDO.getGmtModified());
+            if (canDelete) {
+                log.info("[ResetService] delete user created workflow: {}", JSONObject.toJSONString(workflowInfoDO));
+                workflowInfoRepository.deleteById(workflowInfoDO.getId());
+            }
+        });
+    }
+
+    private static boolean checkCanDelete(String extra, Date modifyTime) {
+        if (SYSTEM_EXTRA.equals(extra)) {
+            return false;
+        }
+        // 保留用户1小时内的任务
+        long offset = System.currentTimeMillis() - modifyTime.getTime();
+        return offset >= MAX_EXPIRE_TIME;
     }
 
     private static JobInfoDO newJob(Long id, String name) {
@@ -215,12 +246,14 @@ public class ResetService {
         base.setProcessorInfo("1#cn.edu.zju.oms.container.SimpleStandaloneProcessor");
         base.setDispatchStrategy(1);
 
+        base.setExtra(SYSTEM_EXTRA);
+
         base.setGmtCreate(new Date());
         base.setGmtModified(new Date());
         return base;
     }
 
-    @Scheduled(cron = "0 0/13 * * * ? ")
+    @Scheduled(cron = "0 0/7 * * * ? ")
     private void resetWorkflow() {
 
         // GraphA: A -> B -> C
@@ -274,6 +307,7 @@ public class ResetService {
         workflowA.setPeDAG(dag);
         workflowA.setTimeExpressionType(2);
         workflowA.setTimeExpression("0 0/5 * * * ? *");
+        workflowA.setExtra(SYSTEM_EXTRA);
         return workflowA;
     }
 }

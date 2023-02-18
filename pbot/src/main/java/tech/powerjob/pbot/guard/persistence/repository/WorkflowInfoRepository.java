@@ -11,6 +11,5 @@ import tech.powerjob.pbot.guard.persistence.model.WorkflowInfoDO;
  */
 public interface WorkflowInfoRepository extends JpaRepository<WorkflowInfoDO, Long> {
 
-    int deleteByIdGreaterThan(int id);
 
 }
