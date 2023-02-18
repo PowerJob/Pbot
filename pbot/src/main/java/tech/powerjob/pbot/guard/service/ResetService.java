@@ -42,10 +42,14 @@ public class ResetService {
      * 调用所有重置方法（用于初始化表数据或测试）
      */
     public void resetAll() {
-        resetAppName();
-        resetContainer();
-        resetJobs();
-        resetWorkflow();
+        try {
+            resetAppName();
+            resetContainer();
+            resetJobs();
+            resetWorkflow();
+        } catch (Exception e) {
+            log.error("[ResetService] reset failed!", e);
+        }
     }
 
     // 强制 id 为 1 的 app 为示例 app
@@ -175,6 +179,8 @@ public class ResetService {
             dagNode.setMaxInstanceNum(0);
             jobInfoRepository.save(dagNode);
         }
+
+        log.info("[ResetService] reset jobs successfully!");
     }
 
     @Scheduled(cron = "0 0 0 * * ? ")
