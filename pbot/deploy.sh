@@ -18,11 +18,11 @@ docker run -d \
        --restart=always \
        --net=host \
        --name pbot \
-       -m 192M \
+       -m 256M \
        --memory-swap 384M \
        -p 7777:7777 \
        -e PARAMS="--spring.profiles.active=production" \
-       -e JVMOPTIONS="-server" \
+       -e JVMOPTIONS="-server " \
        -v ~/powerjob-data/pbot:/root \
        tjqq/pbot:latest
 
