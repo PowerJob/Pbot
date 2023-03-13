@@ -2,6 +2,7 @@ package tech.powerjob.pbot.hack;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ import java.util.concurrent.*;
 @Service
 public class ExerciseService {
 
+    @Value("${powerjob.exercise.enable:false}")
+    private boolean enableExercise;
+
     private static final ExecutorService EXERCISE_POOL = new ThreadPoolExecutor(
             Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors(),
             0, TimeUnit.DAYS,
@@ -26,6 +30,10 @@ public class ExerciseService {
 
     @Scheduled(fixedDelay = 600000)
     public void exercise() {
+
+        if (!enableExercise) {
+            return;
+        }
 
         double percent = ThreadLocalRandom.current().nextDouble(0.2, 0.4);
         int seconds = ThreadLocalRandom.current().nextInt(30, 90);
