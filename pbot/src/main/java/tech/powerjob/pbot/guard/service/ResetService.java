@@ -143,19 +143,19 @@ public class ResetService {
 
         // JOB5: CRON-单机
         JobInfoDO cronStandalone = newJob(5L, "[CRON] Standalone");
+        cronStandalone.setJobParams("{\"mode\":\"BASE\",\"responseSize\":12}");
         jobInfoRepository.save(cronStandalone);
 
         // Job6: CRON-广播
         JobInfoDO cronBroadcast = newJob(6L, "[CRON] Broadcast");
-        cronBroadcast.setProcessorInfo("1#cn.edu.zju.oms.container.ContainerBroadcastProcessor");
         cronBroadcast.setExecuteType(2);
         jobInfoRepository.save(cronBroadcast);
 
         // Job7: CRON-MapReduce
         JobInfoDO cronMR = newJob(7L, "[CRON] MapReduce");
-        cronMR.setJobParams("{\"batchSize\": 100, \"batchNum\": 2}");
-        cronMR.setProcessorInfo("1#cn.edu.zju.oms.container.ContainerMRProcessor");
+        cronMR.setJobParams("{\"mode\":\"MR\",\"batchNum\": 10, \"batchSize\": 20,\"subTaskSuccessRate\":0.8}");
         cronMR.setExecuteType(3);
+        cronMR.setInstanceTimeLimit(300000L);
         jobInfoRepository.save(cronMR);
 
         // Job4: FixedRate-单机
@@ -185,6 +185,7 @@ public class ResetService {
             dagNode.setTimeExpressionType(5);
             dagNode.setTimeExpression(null);
             dagNode.setMaxInstanceNum(0);
+            dagNode.setJobParams("{\"mode\":\"BASE\",\"responseSize\":8}");
             jobInfoRepository.save(dagNode);
         }
 
@@ -195,7 +196,7 @@ public class ResetService {
     public void cleanJobAndWorkflow() {
 
         jobInfoRepository.findAll().forEach(jobInfoDO -> {
-            final boolean canDelete = checkCanDelete(jobInfoDO.getExtra(), jobInfoDO.getGmtModified());
+            final boolean canDelete = checkCanDelete(jobInfoDO.getId(), jobInfoDO.getGmtModified());
             if (canDelete) {
                 log.info("[ResetService] delete user created job: {}", JSONObject.toJSONString(jobInfoDO));
                 jobInfoRepository.deleteById(jobInfoDO.getId());
@@ -203,7 +204,7 @@ public class ResetService {
         });
 
         workflowInfoRepository.findAll().forEach(workflowInfoDO -> {
-            final boolean canDelete = checkCanDelete(workflowInfoDO.getExtra(), workflowInfoDO.getGmtModified());
+            final boolean canDelete = checkCanDelete(workflowInfoDO.getId(), workflowInfoDO.getGmtModified());
             if (canDelete) {
                 log.info("[ResetService] delete user created workflow: {}", JSONObject.toJSONString(workflowInfoDO));
                 workflowInfoRepository.deleteById(workflowInfoDO.getId());
@@ -211,11 +212,14 @@ public class ResetService {
         });
     }
 
-    private static boolean checkCanDelete(String extra, Date modifyTime) {
-        if (SYSTEM_EXTRA.equals(extra)) {
+    private static boolean checkCanDelete(Long id, Date modifyTime) {
+
+        // 前2个任务固定保留，一定是系统任务
+        if (id <= 2) {
             return false;
         }
-        // 保留用户1小时内的任务
+
+        // 保留用户1小时内的任务（PBot 正常运行的情况下，modifyTime 系统任务 modifyTime 一定会被更新。PBot 未正常运行，这段代码也执行不了）
         long offset = System.currentTimeMillis() - modifyTime.getTime();
         return offset >= MAX_EXPIRE_TIME;
     }
@@ -235,15 +239,15 @@ public class ResetService {
         base.setStatus(1);
         base.setMaxWorkerCount(0);
         base.setMaxInstanceNum(3);
-        base.setProcessorType(4);
-        base.setInstanceTimeLimit(0L);
+        base.setProcessorType(1);
+        base.setInstanceTimeLimit(60000L);
 
         base.setTimeExpressionType(2);
         base.setTimeExpression("0 0/5 * * * ? *");
         base.setNextTriggerTime(System.currentTimeMillis() + 60000);
 
         base.setExecuteType(1);
-        base.setProcessorInfo("1#cn.edu.zju.oms.container.SimpleStandaloneProcessor");
+        base.setProcessorInfo("tech.powerjob.official.processors.impl.VerificationProcessor");
         base.setDispatchStrategy(1);
 
         base.setExtra(SYSTEM_EXTRA);
@@ -270,7 +274,7 @@ public class ResetService {
         WorkflowNodeInfoDO nodeCC = newNode(6L, 13L, "Node-C", 2L);
         nodeCC.setEnable(false);
         WorkflowNodeInfoDO nodeDD = newNode(7L, 14L, "Node-D", 2L);
-        nodeDD.setNodeParams("failed");
+        nodeDD.setNodeParams("{\"mode\":\"ERROR\"}");
         nodeDD.setSkipWhenFailed(true);
         WorkflowNodeInfoDO nodeEE = newNode(8L, 15L, "Node-E", 2L);
         workflowNodeInfoRepository.saveAll(Lists.newArrayList(nodeAA, nodeBB, nodeCC, nodeDD, nodeEE));

@@ -11,6 +11,7 @@ import tech.powerjob.pbot.guard.service.ResetService;
 
 /**
  * test
+ * <a href="http://localhost:7777/test/resetAll">url</a>
  *
  * @author tjq
  * @since 2023/1/27
