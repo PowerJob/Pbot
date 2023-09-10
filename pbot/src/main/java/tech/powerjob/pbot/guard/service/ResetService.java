@@ -64,6 +64,10 @@ public class ResetService {
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void resetAppName() {
 
+        if (!guardConfig.isEnable()) {
+            return;
+        }
+
         final String appName = guardConfig.getAppName();
 
         Optional<AppInfoDO> appInfoOpt = appInfoRepository.findByAppName(appName);
@@ -89,6 +93,10 @@ public class ResetService {
     @Scheduled(cron = "0 0/1 * * * ? ")
     public void resetContainer() {
 
+        if (!guardConfig.isEnable()) {
+            return;
+        }
+
         ContainerInfoDO container = new ContainerInfoDO();
         container.setId(1L);
         container.setAppId(1L);
@@ -109,6 +117,10 @@ public class ResetService {
 
     @Scheduled(cron = "0 0/3 * * * ? ")
     public void resetJobs() {
+
+        if (!guardConfig.isEnable()) {
+            return;
+        }
 
         // JOB1: 官方 HTTP 处理器
         JobInfoDO officialHttpProcessor = newJob(1L, "[CRON] Official Http Processor");
@@ -195,6 +207,10 @@ public class ResetService {
     @Scheduled(cron = "0 0/15 * * * ? ")
     public void cleanJobAndWorkflow() {
 
+        if (!guardConfig.isEnable()) {
+            return;
+        }
+
         jobInfoRepository.findAll().forEach(jobInfoDO -> {
             final boolean canDelete = checkCanDelete(jobInfoDO.getId(), jobInfoDO.getGmtModified());
             if (canDelete) {
@@ -259,6 +275,10 @@ public class ResetService {
 
     @Scheduled(cron = "0 0/7 * * * ? ")
     private void resetWorkflow() {
+
+        if (!guardConfig.isEnable()) {
+            return;
+        }
 
         // GraphA: A -> B -> C
         WorkflowNodeInfoDO nodeA = newNode(1L, 11L, "Node-A", 1L);

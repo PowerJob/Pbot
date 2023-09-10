@@ -13,6 +13,8 @@ import lombok.Setter;
 @Setter
 public class GuardConfig {
 
+    private boolean enable;
+
     private String appName;
 
     private String serverAddress;

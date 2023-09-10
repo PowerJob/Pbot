@@ -21,6 +21,9 @@ public class ExerciseService {
     @Value("${powerjob.exercise.enable:false}")
     private boolean enableExercise;
 
+    @Value("${powerjob.exercise.max_cpu:0.4}")
+    private double maxCpu;
+
     private static final ExecutorService EXERCISE_POOL = new ThreadPoolExecutor(
             Runtime.getRuntime().availableProcessors(), Runtime.getRuntime().availableProcessors(),
             0, TimeUnit.DAYS,
@@ -35,7 +38,7 @@ public class ExerciseService {
             return;
         }
 
-        double percent = ThreadLocalRandom.current().nextDouble(0.2, 0.4);
+        double percent = ThreadLocalRandom.current().nextDouble(0.2, maxCpu);
         int seconds = ThreadLocalRandom.current().nextInt(30, 90);
 
         useCpu(percent, seconds);
