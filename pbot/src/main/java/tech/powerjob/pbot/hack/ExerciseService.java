@@ -35,6 +35,7 @@ public class ExerciseService {
     public void exercise() {
 
         if (!enableExercise) {
+            log.info("[ExerciseService] enableExercise is FALSE, skip!");
             return;
         }
 
