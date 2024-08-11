@@ -63,6 +63,9 @@ public class InstanceInfoDO {
      * 该任务实例所属的 workflow ID，仅 workflow 任务存在
      */
     private Long wfInstanceId;
+    /**
+     *
+     */
     private Integer status;
     /**
      * 执行结果（允许存储稍大的结果）

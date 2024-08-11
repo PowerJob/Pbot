@@ -36,7 +36,7 @@ public class WorkflowNodeInfoDO {
     @Column
     private Long workflowId;
     /**
-     * 节点类型
+     *
      */
     private Integer type;
     /**
